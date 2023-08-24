@@ -1,3 +1,6 @@
+# Import Libraries
+import sys
+
 # All notes in range
 notes = {
     1: "c,,",
@@ -75,15 +78,22 @@ Tunings["standard"] = {
 default_tuning = Tunings["standard"]
 
 # Read .tab file
-tabFile = open('test.tab', 'r')
+file = sys.argv[1]
+tabFile = open(file, 'r')
 tabs = tabFile.read().split()
 
 # Parse Tablature
-print("Notes: ")
+lilyNotes = ''
 for tab in tabs:
     tabParts = tab.split(".")
     string = "string" + str(tabParts[0])
     fret = tabParts[1]
     rhythm = tabParts[2]
     noteID = Tunings["standard"][string] + int(fret)
-    print(notes[noteID])
+    lilyNotes = lilyNotes + notes[noteID] + rhythm + ' '
+
+print(lilyNotes)
+
+# Print notes to file
+with open('notes.txt', 'w') as f:
+    f.write(lilyNotes)
