@@ -18,7 +18,6 @@ the open second string.
 * Add "sharp" or "flat" anywhere in the tab filename based on the key signature.
 
 ### Notation Not Currently Supported
-* Dotted Notes
 * Triplets
 * Articulations
 * Alternate Tunings
@@ -27,7 +26,7 @@ the open second string.
 ## Running Script
 
 ```bash
-$ python3 parse.py tab.txt
+$ python3 parse.py flatTab.txt
 ```
 
 The output will be written to notes.txt and the contents can be copy/pasted into your .ly (LilyPond) file.
