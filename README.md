@@ -8,15 +8,21 @@ I wanted to be able to enter music by giving string+fret together with tuning in
 
 
 ## Simplified Tab Notation
-This project using simplified tab notation from [jeremy9959's BanjoTab project](https://github.com/jeremy9959/BanjoTab)
+This project uses simplified tab notation from [jeremy9959's BanjoTab project](https://github.com/jeremy9959/BanjoTab)
 
 Each note is entered as (string).(fret).(duration) - So 2.0.4 means a quarter note on
 the open second string.
 
-### Notation Not Supported
+* Rests should be notated as 0.0.(duration)
+* Dotted notes are represented by appending * to the duration
+* Add "sharp" or "flat" anywhere in the tab filename based on the key signature.
+
+### Notation Not Currently Supported
 * Dotted Notes
 * Triplets
 * Articulations
+* Alternate Tunings
+* 5 or more strings
 
 ## Running Script
 

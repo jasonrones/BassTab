@@ -1,8 +1,11 @@
 # Import Libraries
 import sys
 
-# All notes in range
-notes = {
+## Declare variables
+lilyNotes = '' # Output string
+
+# All notes in sharp keys
+sharpKey = {
     1: "c,,",
     2: "cis,,",
     3: "d,,",
@@ -65,6 +68,70 @@ notes = {
     60: "b''",
 }
 
+# All notes in flat keys
+flatKey = {
+    1: "c,,",
+    2: "des,,",
+    3: "d,,",
+    4: "ees,,",
+    5: "e,,",
+    6: "f,,",
+    7: "ges,,",
+    8: "g,,",
+    9: "aes,,",
+    10: "a,,",
+    11: "bes,,",
+    12: "b,,",
+    13: "c,",
+    14: "des,",
+    15: "d,",
+    16: "ees,",
+    17: "e,",
+    18: "f,",
+    19: "ges,",
+    20: "g,",
+    21: "aes,",
+    22: "a,",
+    23: "bes,",
+    24: "b,",
+    25: "c",
+    26: "des",
+    27: "d",
+    28: "ees",
+    29: "e",
+    30: "f",
+    31: "ges",
+    32: "g",
+    33: "aes",
+    34: "a",
+    35: "bes",
+    36: "b",
+    37: "c'",
+    38: "des'",
+    39: "d'",
+    40: "ees'",
+    41: "e'",
+    42: "f'",
+    43: "ges'",
+    44: "g'",
+    45: "aes'",
+    46: "a'",
+    47: "bes'",
+    48: "b'",
+    49: "c''",
+    50: "des''",
+    51: "d''",
+    52: "ees''",
+    53: "e''",
+    54: "f''",
+    55: "ges''",
+    56: "g''",
+    57: "aes''",
+    58: "a''",
+    59: "bes''",
+    60: "b''",
+}
+
 Tunings = {}
 # String: NoteID
 Tunings["standard"] = {
@@ -80,17 +147,31 @@ default_tuning = Tunings["standard"]
 # Read .tab file
 file = sys.argv[1]
 tabFile = open(file, 'r')
-tabs = tabFile.read().split()
+tabLines = tabFile.read().split('\n')
+
+# Use Sharps or Flats?
+if 'sharp' in file:
+    notes = sharpKey
+elif 'flat' in file:
+    notes = flatKey
+else:
+    notes = sharpKey # default to sharp key if not specified
+    lilyNotes = 'Add "flat" or "sharp" in the input filename' + '\n' + '\n'
 
 # Parse Tablature
-lilyNotes = ''
-for tab in tabs:
-    tabParts = tab.split(".")
-    string = "string" + str(tabParts[0])
-    fret = tabParts[1]
-    rhythm = tabParts[2]
-    noteID = Tunings["standard"][string] + int(fret)
-    lilyNotes = lilyNotes + notes[noteID] + rhythm + ' '
+for line in tabLines:
+    tabNotes = line.split()
+    for tab in tabNotes:
+        tabParts = tab.split(".")
+        string = "string" + str(tabParts[0])
+        fret = tabParts[1]
+        rhythm = tabParts[2].replace('*', '.')
+        if string == "string0": # Check if note is a rest
+            lilyNotes = lilyNotes + 'r' + rhythm + ' '
+        else:
+            noteID = Tunings["standard"][string] + int(fret)
+            lilyNotes = lilyNotes + notes[noteID] + rhythm + ' '
+    lilyNotes = lilyNotes + '\n'
 
 print(lilyNotes)
 
