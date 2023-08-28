@@ -150,9 +150,9 @@ tabFile = open(file, 'r')
 tabLines = tabFile.read().split('\n')
 
 # Use Sharps or Flats?
-if 'sharp' in file:
+if '.sharp' in file:
     notes = sharpKey
-elif 'flat' in file:
+elif '.flat' in file:
     notes = flatKey
 else:
     notes = sharpKey # default to sharp key if not specified
