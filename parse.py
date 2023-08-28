@@ -159,9 +159,13 @@ else:
     lilyNotes = 'Add "flat" or "sharp" in the input filename' + '\n' + '\n'
 
 # Parse Tablature
+lineNumber = 0
 for line in tabLines:
+    lineNumber = lineNumber + 1
     tabNotes = line.split()
     for tab in tabNotes:
+        if tab.count(".") > 2: # Check for missing spaces between tab notes
+            lilyNotes = 'Check the tab on line ' + str(lineNumber) + '\n' + '\n'
         tabParts = tab.split(".")
         string = "string" + str(tabParts[0])
         fret = tabParts[1]
@@ -173,7 +177,11 @@ for line in tabLines:
             lilyNotes = lilyNotes + notes[noteID] + rhythm + ' '
     lilyNotes = lilyNotes + '\n'
 
+print('Copy/Paste into your .ly file: ' + '\n')
+
 print(lilyNotes)
+
+print('This output is also saved in notes.txt')
 
 # Print notes to file
 with open('notes.txt', 'w') as f:

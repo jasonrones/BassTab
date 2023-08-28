@@ -14,8 +14,8 @@ Each note is entered as (string).(fret).(duration) - So 2.0.4 means a quarter no
 the open second string.
 
 * Rests should be notated as 0.0.(duration)
-* Dotted notes are represented by appending * to the duration
-* Add "sharp" or "flat" anywhere in the tab filename based on the key signature.
+* Dotted notes are represented by appending * to the duration (1.1.4*)
+* Add ".sharp" or ".flat" to the tab input filename depending on the key signature.
 
 ### Notation Not Currently Supported
 * Triplets
@@ -26,7 +26,7 @@ the open second string.
 ## Running Script
 
 ```bash
-$ python3 parse.py flatTab.txt
+$ python3 parse.py tab.flat.txt
 ```
 
 The output will be written to notes.txt and the contents can be copy/pasted into your .ly (LilyPond) file.
