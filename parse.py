@@ -1,8 +1,17 @@
 # Import Libraries
 import sys
+import configparser
 
-## Declare variables
+# Import Configuration
+config = configparser.ConfigParser()
+config.read('config.ini')
+instrument = config['DEFAULT']['Instrument']
+stringCount = config['DEFAULT']['String_Count']
+tuning = config['DEFAULT']['Tuning']
+
+## Initialize Variables
 lilyNotes = '' # Output string
+Tunings = {}
 
 # All notes in sharp keys
 sharpKey = {
@@ -132,17 +141,27 @@ flatKey = {
     60: "b''",
 }
 
-Tunings = {}
 # String: NoteID
-Tunings["standard"] = {
-    "string1": 32,
-    "string2": 27,
-    "string3": 22,
-    "string4": 17
-}
+match instrument:
+    case 'bass':
+        Tunings["bass"] = {
+            "string1": 32,
+            "string2": 27,
+            "string3": 22,
+            "string4": 17
+        }
+    case 'guitar'
+        Tunings["guitar"] = {
+            "string1": 41,
+            "string2": 36,
+            "string3": 32,
+            "string4": 27,
+            "string5": 22,
+            "string6": 17
+        }
 
 # Default is standard
-default_tuning = Tunings["standard"]
+default_tuning = Tunings["guitar"]
 
 # Read .tab file
 file = sys.argv[1]
@@ -168,13 +187,16 @@ for line in tabLines:
             lilyNotes = 'Check the tab on line ' + str(lineNumber) + '\n' + '\n'
         tabParts = tab.split(".")
         string = "string" + str(tabParts[0])
+        print(string)
         fret = tabParts[1]
-        rhythm = tabParts[2].replace('*', '.')
+        print(fret)
+        duration = tabParts[2].replace('*', '.')
+        print(duration)
         if string == "string0": # Check if note is a rest
-            lilyNotes = lilyNotes + 'r' + rhythm + ' '
+            lilyNotes = lilyNotes + 'r' + duration + ' '
         else:
-            noteID = Tunings["standard"][string] + int(fret)
-            lilyNotes = lilyNotes + notes[noteID] + rhythm + ' '
+            noteID = default_tuning[string] + int(fret)
+            lilyNotes = lilyNotes + notes[noteID] + duration + ' '
     lilyNotes = lilyNotes + '\n'
 
 print('Copy/Paste into your .ly file: ' + '\n')
