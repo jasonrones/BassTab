@@ -25,12 +25,13 @@ You can edit the following settings in the config.ini file:
 * Triplets
 * Articulations
 * Alternate Tunings
-* 5 or more strings
+* Guitars with more than 6 strings
+* Bass with more than 4 strings
 
 ## Running Script
 
 ```bash
-$ python3 parse.py tab.flat.txt
+$ python3 parse.py tab.txt
 ```
 
 The output will be written to notes.txt and the contents can be copy/pasted into your .ly (LilyPond) file.
