@@ -15,7 +15,11 @@ the open second string.
 
 * Rests should be notated as 0.0.(duration)
 * Dotted notes are represented by appending * to the duration (1.1.4*)
-* Add ".sharp" or ".flat" to the tab input filename depending on the key signature.
+
+## Configuration
+You can edit the following settings in the config.ini file:
+* Instrument = (Guitar/Bass)
+* Accidentals = (Sharps/Flats)
 
 ### Notation Not Currently Supported
 * Triplets
