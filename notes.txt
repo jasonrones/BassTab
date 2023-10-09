@@ -1,3 +1,4 @@
-cis'16 cis'16 r8 a16 a16 r4 a16 a16 d16 r8. 
-a16 a16 d16 r8. a16 g16 fis16 d16 e16 fis16 r16 d8 d16 e16 r8 
-e,1 
+cis4 c8 c4. 
+b,8 fis8 b,8 ais,8 cis4 fis,4 
+a,4 gis,4 fis,4 e,4 
+b,8 b,8 b,8 r8 r2 
