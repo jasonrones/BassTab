@@ -7,10 +7,10 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 instrument = config['DEFAULT']['Instrument']
 stringCount = config['DEFAULT']['String_Count']
-tuning = config['DEFAULT']['Tuning']
+accidentals = config['Lilypond']['Accidentals']
 
 ## Initialize Variables
-lilyNotes = '' # Output string
+output = '' # Output string
 Tunings = {}
 
 # All notes in sharp keys
@@ -143,15 +143,15 @@ flatKey = {
 
 # String: NoteID
 match instrument:
-    case 'bass':
-        Tunings["bass"] = {
+    case 'Bass':
+        tuning = Tunings["bass"] = {
             "string1": 32,
             "string2": 27,
             "string3": 22,
             "string4": 17
         }
-    case 'guitar'
-        Tunings["guitar"] = {
+    case 'Guitar':
+        tuning = Tunings["guitar"] = {
             "string1": 41,
             "string2": 36,
             "string3": 32,
@@ -160,22 +160,20 @@ match instrument:
             "string6": 17
         }
 
-# Default is standard
-default_tuning = Tunings["guitar"]
-
 # Read .tab file
 file = sys.argv[1]
 tabFile = open(file, 'r')
 tabLines = tabFile.read().split('\n')
 
 # Use Sharps or Flats?
-if '.sharp' in file:
-    notes = sharpKey
-elif '.flat' in file:
-    notes = flatKey
-else:
-    notes = sharpKey # default to sharp key if not specified
-    lilyNotes = 'Add "flat" or "sharp" in the input filename' + '\n' + '\n'
+match accidentals:
+    case 'Sharps':
+        notes = sharpKey
+    case 'Flats':
+        notes = flatKey
+    case _:
+        notes = sharpKey # default to sharp key if not specified
+        output = 'Add "flat" or "sharp" in the input filename' + '\n' + '\n'
 
 # Parse Tablature
 lineNumber = 0
@@ -184,7 +182,7 @@ for line in tabLines:
     tabNotes = line.split()
     for tab in tabNotes:
         if tab.count(".") > 2: # Check for missing spaces between tab notes
-            lilyNotes = 'Check the tab on line ' + str(lineNumber) + '\n' + '\n'
+            output = 'Check the tab on line ' + str(lineNumber) + '\n' + '\n'
         tabParts = tab.split(".")
         string = "string" + str(tabParts[0])
         print(string)
@@ -193,18 +191,18 @@ for line in tabLines:
         duration = tabParts[2].replace('*', '.')
         print(duration)
         if string == "string0": # Check if note is a rest
-            lilyNotes = lilyNotes + 'r' + duration + ' '
+            output = output + 'r' + duration + ' '
         else:
-            noteID = default_tuning[string] + int(fret)
-            lilyNotes = lilyNotes + notes[noteID] + duration + ' '
-    lilyNotes = lilyNotes + '\n'
+            noteID = tuning[string] + int(fret)
+            output = output + notes[noteID] + duration + ' '
+    output = output + '\n'
 
 print('Copy/Paste into your .ly file: ' + '\n')
 
-print(lilyNotes)
+print(output)
 
 print('This output is also saved in notes.txt')
 
 # Print notes to file
 with open('notes.txt', 'w') as f:
-    f.write(lilyNotes)
+    f.write(output)
